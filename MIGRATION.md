@@ -29,3 +29,15 @@ Home, About, Listings, Sold, Testimonials, Videos, Appraisal/Contact, Thank You.
 - Test build, mobile devices, property links and all submission routes before merge and DNS cutover.
 
 Based on supplied project material; original WordPress export has not been obtained. Keep WordPress live until the replacement is approved.
+
+## WordPress recovery progress, 22 October 2026
+
+- Verified WordPress read access using WPVibe to https://shanikumari.co.nz.
+- Migrated original logo URL, about portrait URL, six homepage sold-gallery image URLs, and original hero wording.
+- Migrated two published featured-property records with non-current status disclosures.
+- Migrated four published RateMyAgent testimonial texts from `/testimonials/`.
+- Migrated two videos from `/re/` plus the homepage YouTube video.
+- Added React Netlify form's static registration fields to index.html.
+- Added GitHub Actions build workflow. Build has NOT yet been confirmed passing.
+
+**Important:** Visual assets are currently remote WordPress references, not bytes copied into GitHub. Transferring the binary assets to repository storage is outstanding. Current images may stop loading if WordPress hosting is retired. Existing WordPress legal pages remain linked pending full text migration. Verify correct contact email: source pages disagree between `shani.k@arizto.co.nz` and `shani.kumari@arizto.co.nz`, while other template sections have clearly obsolete addresses. Do not switch the domain until corrected, forms delivery verified and redirects tested.
