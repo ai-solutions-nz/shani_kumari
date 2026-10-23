@@ -1,0 +1,39 @@
+name: Import WordPress images
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: website/react-vite-migration
+      - name: Download original WordPress image assets
+        run: |
+          set -eu
+          mkdir -p public/images
+          base="https://shanikumari.co.nz/wp-content/uploads"
+          curl -fLsS --retry 3 "$base/2025/05/Shani-Kumari-green-logo.png" -o public/images/shani-kumari-green-logo.png
+          curl -fLsS --retry 3 "$base/2025/05/Shani-Kumari-White-logo.png" -o public/images/shani-kumari-white-logo.png
+          curl -fLsS --retry 3 "$base/2025/05/about-shani.png" -o public/images/about-shani.png
+          curl -fLsS --retry 3 "$base/2025/05/mobile-hero.png" -o public/images/mobile-hero.png
+          curl -fLsS --retry 3 "$base/2025/05/featured-1.png" -o public/images/featured-1.png
+          curl -fLsS --retry 3 "$base/2025/05/feature-3.png" -o public/images/feature-3.png
+          curl -fLsS --retry 3 "$base/2025/06/4-1.png" -o public/images/4-1.png
+          curl -fLsS --retry 3 "$base/2025/06/8-1.png" -o public/images/8-1.png
+          curl -fLsS --retry 3 "$base/2025/06/5-1.png" -o public/images/5-1.png
+          curl -fLsS --retry 3 "$base/2025/06/7-1.png" -o public/images/7-1.png
+          curl -fLsS --retry 3 "$base/2026/01/Copy-of-Untitled-Design-1.png" -o public/images/featured-ohauiti.png
+          curl -fLsS --retry 3 "$base/2025/09/36-courtney.png" -o public/images/featured-courtney.png
+          file public/images/*
+      - name: Commit original assets to development branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images
+          if ! git diff --cached --quiet; then
+            git commit -m "Import original WordPress image binaries"
+            git push origin HEAD:website/react-vite-migration
+          fi
