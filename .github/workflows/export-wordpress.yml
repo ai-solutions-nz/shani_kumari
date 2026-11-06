@@ -1,0 +1,31 @@
+name: Export current Shani WordPress content
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: shani-wordpress-export
+  cancel-in-progress: false
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: website/react-vite-migration
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Export published WordPress content and original media
+        run: python3 scripts/export_wordpress.py
+      - name: Commit export to migration branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/wp-migration
+          if ! git diff --cached --quiet; then
+            git commit -m "Import current WordPress pages posts and media snapshot"
+            git push origin HEAD:website/react-vite-migration
+          fi
